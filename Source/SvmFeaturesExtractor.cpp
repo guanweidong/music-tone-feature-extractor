@@ -5,13 +5,14 @@
 //  Created by 陳柏諺 on 2018/1/9.
 //
 
+#include "aubio/aubio.h"
 #include "OnsetDetector.hpp"
 #include "SvmFeaturesExtractor.hpp"
-#include "aubio/aubio.h"
 #include "Util.hpp"
 
-#include <numeric>
 #include <algorithm>
+#include <cassert>
+#include <numeric>
 
 
 #if !defined(PP_FFT_SIZE)
