@@ -17,30 +17,19 @@
 
 int main(int argc, char* argv[]) {
     if (argc < 3) {
-        std::cerr << "usage: programe [audio files folder] [label]" << std::endl;
+        std::cerr << "usage: programe [audio file] [label]" << std::endl;
         return EXIT_FAILURE;
     }
 
-    const juce::File inputDirectory = getAbsolutePath(argv[1]);
-    if (!inputDirectory.exists() || !inputDirectory.isDirectory()) {
-        std::cerr << "input directory is not exist:" << argv[1] << std::endl;
+    const juce::File inputFile = getAbsolutePath(argv[1]);
+    if (!inputFile.existsAsFile()) {
+        std::cerr << "input file is not exist:" << argv[1] << std::endl;
         return EXIT_FAILURE;
     }
 
     const std::string label = argv[2];
-    juce::DirectoryIterator input(inputDirectory, false);
-    while (input.next()) {
-        if (!input.getFile().existsAsFile()) {
-            continue;
-        }
-
-        if (input.getFile().getFileExtension() != ".wav") {
-            continue;
-        }
-
-        const auto features = SvmFeaturesExtractor::extract(input.getFile());
-        std::cout << FeaturesFormatter::format(label, std::begin(features), std::end(features)) << std::endl;
-    }
+    const auto features = SvmFeaturesExtractor::extract(inputFile);
+    std::cout << FeaturesFormatter::format(label, std::begin(features), std::end(features)) << std::endl;
 
     return EXIT_SUCCESS;
 }
